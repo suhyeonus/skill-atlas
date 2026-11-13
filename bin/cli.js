@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { scan } from '../src/scan.js';
 import { formatList, formatDetail, formatScanned, TEXT } from '../src/format.js';
+import { attachSummaries, summarize, pending, detectProvider } from '../src/summarize.js';
 
 const HELP = {
   en: `skill-atlas — see which skills and plugins are installed on this computer
@@ -13,6 +14,7 @@ Usage
   skill-atlas [list]            list everything
   skill-atlas show <name>       full details for one skill or plugin
   skill-atlas serve             open the list in your browser
+  skill-atlas summarize         write short plain-language summaries with Claude (optional)
   skill-atlas where             show the folders that were checked
 
 Options for list
@@ -25,6 +27,10 @@ Options for serve
   --port <n>       port to use (default 4317)
   --no-open        do not open the browser
 
+Options for summarize
+  --limit <n>      only the first n entries that still need a summary
+  --force          redo entries that already have one
+
 Everywhere
   --project <dir>  also look in <dir>/.claude (repeatable; the current folder is included automatically)
   --lang <ko|en>   language (default: from your system)
@@ -36,6 +42,7 @@ Everywhere
   skill-atlas [list]            전체 목록
   skill-atlas show <이름>        스킬·플러그인 하나의 자세한 정보
   skill-atlas serve             브라우저에서 목록 열기
+  skill-atlas summarize         Claude로 짧고 쉬운 설명 만들기 (선택)
   skill-atlas where             확인한 폴더 보기
 
 list 옵션
@@ -47,6 +54,10 @@ list 옵션
 serve 옵션
   --port <번호>     사용할 포트 (기본 4317)
   --no-open        브라우저를 자동으로 열지 않음
+
+summarize 옵션
+  --limit <개수>    아직 설명이 없는 항목 중 앞에서 n개만
+  --force          이미 만든 설명도 다시 만들기
 
 공통
   --project <폴더>  <폴더>/.claude 도 함께 확인 (여러 번 사용 가능, 현재 폴더는 자동 포함)
@@ -128,7 +139,10 @@ async function main() {
   const scanOpts = { projects };
 
   const view = { lang, color: process.stdout.isTTY && !process.env.NO_COLOR, columns: process.stdout.columns || 100 };
-  const load = () => scan(scanOpts);
+  const load = () => {
+    const result = scan(scanOpts);
+    return { ...result, items: attachSummaries(result.items) };
+  };
 
   switch (command) {
     case 'list': {
@@ -154,6 +168,38 @@ async function main() {
     case 'where': {
       const { scanned } = load();
       return console.log(flags.json ? JSON.stringify(scanned, null, 2) : formatScanned(scanned, view));
+    }
+    case 'summarize': {
+      const ko = lang === 'ko';
+      const limit = flags.limit === undefined ? undefined : Number(flags.limit);
+      if (limit !== undefined && !(Number.isInteger(limit) && limit > 0)) fail('--limit must be a whole number above 0.');
+      const { items } = scan(scanOpts);
+      let todo = pending(items, { force: flags.force });
+      if (limit) todo = todo.slice(0, limit);
+      if (!todo.length) return console.log(ko ? '모든 항목에 이미 쉬운 설명이 있습니다.' : 'Every entry already has a summary.');
+      const provider = detectProvider();
+      if (!provider) {
+        fail(
+          ko
+            ? '쉬운 설명을 만들려면 Claude에 연결할 방법이 필요합니다.\n  1) Claude Code CLI를 설치하고 로그인하거나 (추천, 키 불필요)\n  2) 환경변수 ANTHROPIC_API_KEY를 설정하세요.\n설명 없이도 list, show, serve는 그대로 쓸 수 있습니다.'
+            : 'Writing summaries needs a way to reach Claude.\n  1) Install and log in to the Claude Code CLI (recommended, no key needed), or\n  2) set the ANTHROPIC_API_KEY environment variable.\nlist, show and serve work without summaries.',
+        );
+      }
+      const via = provider === 'cli' ? 'claude CLI' : 'ANTHROPIC_API_KEY';
+      console.log(ko ? `${todo.length}개 항목의 이름과 설명을 Claude로 보내 요약합니다 (${via} 사용).` : `Sending the name and description of ${todo.length} entries to Claude (${via}).`);
+      const result = await summarize(items, {
+        force: flags.force,
+        limit,
+        onProgress: (p) => console.log(`  ${p.done + p.failed}/${p.total}`),
+      });
+      for (const e of result.errors) console.error('  ! ' + e);
+      console.log(
+        ko
+          ? `완료: ${result.done}개 저장${result.failed ? `, ${result.failed}개 실패 (다시 실행하면 실패한 항목만 재시도합니다)` : ''}.`
+          : `Done: ${result.done} saved${result.failed ? `, ${result.failed} failed (run again to retry only those)` : ''}.`,
+      );
+      if (result.failed && !result.done) process.exit(1);
+      return;
     }
     default:
       fail(`Unknown command "${command}". See skill-atlas --help.`);
