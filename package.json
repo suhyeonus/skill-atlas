@@ -1,0 +1,30 @@
+{
+  "name": "skill-atlas",
+  "version": "0.1.0",
+  "description": "List the agent skills and plugins installed on this machine, from the terminal or a local web page.",
+  "type": "module",
+  "bin": {
+    "skill-atlas": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "web",
+    "README.md",
+    "README.en.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/cli.js serve",
+    "test": "node --test"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "plugins",
+    "cli"
+  ]
+}
