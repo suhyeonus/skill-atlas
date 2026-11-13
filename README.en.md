@@ -45,10 +45,10 @@ skill-atlas list --search figma           # search names and descriptions
 skill-atlas list --json                   # JSON output
 skill-atlas list --project ~/work/my-app  # also check that project's .claude folder
 skill-atlas serve --port 5000 --no-open
-skill-atlas --lang ko                     # language (ko or en)
+skill-atlas --lang en                     # English (the default is Korean)
 ```
 
-Run `skill-atlas --help` for everything.
+Output is in Korean by default. To always get English, set the `SKILL_ATLAS_LANG=en` environment variable. Run `skill-atlas --help` for everything.
 
 ## In the browser
 

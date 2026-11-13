@@ -19,7 +19,7 @@ const store = {
 };
 
 const state = {
-  lang: store.get('lang') || (navigator.language?.toLowerCase().startsWith('ko') ? 'ko' : 'en'),
+  lang: store.get('lang') === 'en' ? 'en' : 'ko', // Korean unless the visitor picked English
   theme: store.get('theme') || 'system',
   dict: {},
   data: null,

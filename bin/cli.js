@@ -33,7 +33,7 @@ Options for summarize
 
 Everywhere
   --project <dir>  also look in <dir>/.claude (repeatable; the current folder is included automatically)
-  --lang <ko|en>   language (default: from your system)
+  --lang <ko|en>   language (default: ko; or set SKILL_ATLAS_LANG)
   -h, --help       this help
   -v, --version    version`,
   ko: `skill-atlas — 이 컴퓨터에 설치된 스킬과 플러그인을 한눈에 봅니다
@@ -61,7 +61,7 @@ summarize 옵션
 
 공통
   --project <폴더>  <폴더>/.claude 도 함께 확인 (여러 번 사용 가능, 현재 폴더는 자동 포함)
-  --lang <ko|en>   언어 (기본: 시스템 설정)
+  --lang <ko|en>   언어 (기본: ko, SKILL_ATLAS_LANG 환경변수로도 지정 가능)
   -h, --help       도움말
   -v, --version    버전`,
 };
@@ -102,10 +102,9 @@ function parseArgs(argv) {
   return { flags, positional };
 }
 
-function systemLang() {
-  const env = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || '';
-  const locale = env || Intl.DateTimeFormat().resolvedOptions().locale || '';
-  return locale.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+/** Korean unless --lang or the SKILL_ATLAS_LANG environment variable says otherwise. */
+function defaultLang() {
+  return process.env.SKILL_ATLAS_LANG || 'ko';
 }
 
 function matches(item, text) {
@@ -117,8 +116,8 @@ function matches(item, text) {
 
 async function main() {
   const { flags, positional } = parseArgs(process.argv.slice(2));
-  const lang = flags.lang ?? systemLang();
-  if (!TEXT[lang]) fail('--lang must be ko or en.');
+  const lang = flags.lang ?? defaultLang();
+  if (!TEXT[lang]) fail('언어는 ko 또는 en 이어야 합니다. / The language must be ko or en.');
   const t = TEXT[lang];
 
   if (flags.version) {
