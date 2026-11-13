@@ -11,7 +11,8 @@
     "src",
     "web",
     "README.md",
-    "README.en.md"
+    "README.en.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=18"
@@ -26,5 +27,11 @@
     "skills",
     "plugins",
     "cli"
-  ]
+  ],
+  "license": "MIT",
+  "author": "Suhyeon Jeong",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhyeonus/skill-atlas.git"
+  }
 }

@@ -11,17 +11,17 @@
 ## 실행
 
 ```bash
-npx github:<계정>/skill-atlas
+npx github:suhyeonus/skill-atlas
 ```
 
 ```bash
-npx github:<계정>/skill-atlas serve
+npx github:suhyeonus/skill-atlas serve
 ```
 
 저장소를 받아서 쓸 수도 있습니다.
 
 ```bash
-git clone https://github.com/<계정>/skill-atlas.git
+git clone https://github.com/suhyeonus/skill-atlas.git
 cd skill-atlas
 node bin/cli.js serve
 ```
@@ -98,3 +98,7 @@ npm test
 ```
 
 테스트는 임시 폴더에 가짜 홈 디렉터리를 만들어 실행하므로 실제 설정을 건드리지 않습니다.
+
+## 라이선스
+
+[MIT](LICENSE)

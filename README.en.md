@@ -11,17 +11,17 @@ Finds the skills and plugins installed on this computer and lists what each one 
 ## Run it
 
 ```bash
-npx github:<account>/skill-atlas
+npx github:suhyeonus/skill-atlas
 ```
 
 ```bash
-npx github:<account>/skill-atlas serve
+npx github:suhyeonus/skill-atlas serve
 ```
 
 Or clone the repository:
 
 ```bash
-git clone https://github.com/<account>/skill-atlas.git
+git clone https://github.com/suhyeonus/skill-atlas.git
 cd skill-atlas
 node bin/cli.js serve
 ```
@@ -98,3 +98,7 @@ npm test
 ```
 
 The tests build a fake home folder in a temporary directory, so your real configuration is never touched.
+
+## License
+
+[MIT](LICENSE)
