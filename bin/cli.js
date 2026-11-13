@@ -138,7 +138,7 @@ async function main() {
   for (const p of flags.project) if (!fs.existsSync(p)) fail(`--project: ${p} does not exist.`);
   const scanOpts = { projects };
 
-  const view = { lang, color: process.stdout.isTTY && !process.env.NO_COLOR, columns: process.stdout.columns || 100 };
+  const view = { lang, color: process.stdout.isTTY && !process.env.NO_COLOR, columns: process.stdout.columns || Number(process.env.COLUMNS) || 100 };
   const load = () => {
     const result = scan(scanOpts);
     return { ...result, items: attachSummaries(result.items) };

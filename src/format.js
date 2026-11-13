@@ -81,6 +81,7 @@ export function formatList(items, { lang = 'en', color = false, columns = 100 } 
   const lines = [c.bold('skill-atlas') + '  ' + c.dim(countsLine(items, t)), ''];
   const nameWidth = Math.min(34, Math.max(...items.map((i) => width(i.name))) + 2);
   const descWidth = Math.max(20, columns - nameWidth - 4);
+  const stacked = columns - nameWidth - 4 < 60; // too little room for a side-by-side description
 
   const groups = new Map();
   for (const it of items) {
@@ -105,6 +106,13 @@ export function formatList(items, { lang = 'en', color = false, columns = 100 } 
       const tag = it.kind === 'skill' ? '' : c.dim(`(${t.kinds[it.kind]}) `);
       const off = it.enabled === false && group.type !== 'plugin' ? c.yellow(`[${t.off}] `) : '';
       const text = blurb(it, lang) || t.noDesc;
+      if (stacked) {
+        // Narrow terminal: name on its own line, description below it on up to two lines.
+        const room = Math.max(20, columns - 6);
+        lines.push('  ' + c.bold(it.name) + (tag || off ? ' ' + tag + off : ''));
+        lines.push('      ' + c.dim(wrap(truncate(text, room * 2 - 2), room, '      ')));
+        continue;
+      }
       const used = width(tag.replace(/\x1b\[\d+m/g, '')) + width(off.replace(/\x1b\[\d+m/g, ''));
       lines.push('  ' + pad(truncate(it.name, nameWidth - 1), nameWidth) + tag + off + truncate(text, descWidth - used));
     }
