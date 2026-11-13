@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Skill Atlas</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/boot.js"></script>
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead__title">
+        <h1>Skill Atlas</h1>
+        <p data-i18n="tagline"></p>
+      </div>
+      <div class="prefs">
+        <div class="segmented" role="group" data-i18n-label="prefs.language" id="lang-switch">
+          <button type="button" data-lang="ko" lang="ko">한국어</button>
+          <button type="button" data-lang="en" lang="en">English</button>
+        </div>
+        <div class="segmented" role="group" data-i18n-label="prefs.theme" id="theme-switch">
+          <button type="button" data-theme-choice="system" data-i18n="theme.system"></button>
+          <button type="button" data-theme-choice="light" data-i18n="theme.light"></button>
+          <button type="button" data-theme-choice="dark" data-i18n="theme.dark"></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="legend" data-i18n-label="legend.label">
+        <section>
+          <h2 data-i18n="legend.kind"></h2>
+          <ul id="kind-filters"></ul>
+        </section>
+        <section>
+          <h2 data-i18n="legend.source"></h2>
+          <ul id="source-filters"></ul>
+        </section>
+        <section id="summary-box" class="summary-box" aria-live="polite"></section>
+      </aside>
+
+      <main>
+        <div class="searchbar">
+          <label class="visually-hidden" for="q" data-i18n="search.label"></label>
+          <input id="q" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="search.placeholder" />
+          <button type="button" id="rescan" class="quiet" data-i18n="actions.rescan"></button>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+        <div id="list"></div>
+        <details id="scanned" class="scanned" hidden>
+          <summary data-i18n="scanned.title"></summary>
+          <ul></ul>
+        </details>
+      </main>
+    </div>
+  </body>
+</html>

@@ -169,6 +169,22 @@ async function main() {
       const { scanned } = load();
       return console.log(flags.json ? JSON.stringify(scanned, null, 2) : formatScanned(scanned, view));
     }
+    case 'serve': {
+      const port = flags.port === undefined ? 4317 : Number(flags.port);
+      if (!(Number.isInteger(port) && port > 0 && port < 65536)) fail('--port must be a number between 1 and 65535.');
+      const { startServer } = await import('../src/server.js');
+      const { url, port: actual } = await startServer({ port, scanOpts });
+      const ko = lang === 'ko';
+      if (actual !== port) console.log(ko ? `${port}번 포트가 사용 중이라 ${actual}번을 씁니다.` : `Port ${port} is in use, using ${actual}.`);
+      console.log(ko ? `Skill Atlas 실행 중: ${url}\n이 컴퓨터에서만 열립니다. 끝내려면 Ctrl+C.` : `Skill Atlas is running at ${url}\nOnly reachable from this computer. Press Ctrl+C to stop.`);
+      if (!flags['no-open']) {
+        const { spawn } = await import('node:child_process');
+        const [cmd, args] =
+          process.platform === 'darwin' ? ['open', [url]] : process.platform === 'win32' ? ['cmd', ['/c', 'start', '', url]] : ['xdg-open', [url]];
+        spawn(cmd, args, { stdio: 'ignore', detached: true }).on('error', () => {}).unref();
+      }
+      return;
+    }
     case 'summarize': {
       const ko = lang === 'ko';
       const limit = flags.limit === undefined ? undefined : Number(flags.limit);

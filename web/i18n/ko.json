@@ -1,0 +1,62 @@
+{
+  "tagline": "이 컴퓨터에 설치된 스킬과 플러그인",
+  "prefs": { "language": "언어", "theme": "화면 테마" },
+  "theme": { "system": "시스템", "light": "라이트", "dark": "다크" },
+  "legend": { "label": "범례와 필터", "kind": "종류", "source": "찾은 곳" },
+  "kinds": { "skill": "스킬", "plugin": "플러그인", "agent": "에이전트", "command": "명령" },
+  "kindHelp": {
+    "skill": "특정 작업을 하는 방법을 담은 지침 묶음",
+    "plugin": "스킬·에이전트·연결 도구를 한데 묶은 꾸러미",
+    "agent": "한 가지 일을 맡아 따로 움직이는 보조 일꾼",
+    "command": "/이름 으로 직접 부르는 명령"
+  },
+  "sources": {
+    "user": "내 스킬 폴더",
+    "plugin": "Claude Code 플러그인",
+    "desktop": "Claude 앱",
+    "project": "프로젝트",
+    "agents": "공용 폴더"
+  },
+  "groups": {
+    "user": "내가 만든 스킬",
+    "project": "프로젝트 스킬",
+    "agents": "공용 스킬 폴더",
+    "app": "Claude 앱 기본 스킬"
+  },
+  "search": { "label": "이름이나 설명으로 찾기", "placeholder": "이름이나 설명으로 찾기" },
+  "actions": { "rescan": "다시 스캔", "clear": "필터 지우기" },
+  "status": {
+    "loading": "설치된 항목을 찾는 중…",
+    "count": "{n}개",
+    "filtered": "{total}개 중 {n}개",
+    "noMatch": "조건에 맞는 항목이 없습니다.",
+    "empty": "설치된 스킬이나 플러그인을 찾지 못했습니다. 아래 ‘확인한 위치’에서 어디를 살펴봤는지 볼 수 있습니다.",
+    "loadError": "목록을 불러오지 못했습니다. 터미널에서 skill-atlas serve가 아직 실행 중인지 확인한 뒤 ‘다시 스캔’을 누르세요."
+  },
+  "state": { "on": "켜짐", "off": "꺼짐" },
+  "noDescription": "설명이 없습니다.",
+  "fields": {
+    "when": "이럴 때 씁니다",
+    "original": "원래 설명",
+    "kind": "종류",
+    "partOf": "소속",
+    "version": "버전",
+    "author": "만든 곳",
+    "state": "상태",
+    "sources": "찾은 곳",
+    "mcp": "연결 도구(MCP)",
+    "homepage": "홈페이지",
+    "paths": "위치"
+  },
+  "summary": {
+    "title": "쉬운 설명",
+    "intro": "원래 설명이 길거나 영어라 읽기 어렵다면 Claude가 한 줄로 풀어 쓸 수 있습니다. 항목의 이름과 설명이 Claude로 전송됩니다.",
+    "make": "쉬운 설명 만들기 ({n}개)",
+    "running": "만드는 중 {done}/{total}",
+    "allDone": "모든 항목에 쉬운 설명이 있습니다.",
+    "noProvider": "쉬운 설명을 만들려면 Claude Code CLI에 로그인하거나 ANTHROPIC_API_KEY 환경변수를 설정한 뒤 다시 실행하세요.",
+    "failed": "{n}개는 만들지 못했습니다. 버튼을 다시 누르면 그 항목만 재시도합니다.",
+    "startError": "쉬운 설명 만들기를 시작하지 못했습니다. 잠시 뒤 다시 시도하세요."
+  },
+  "scanned": { "title": "확인한 위치", "found": "있음", "missing": "없음" }
+}

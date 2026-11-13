@@ -1,0 +1,62 @@
+{
+  "tagline": "Skills and plugins installed on this computer",
+  "prefs": { "language": "Language", "theme": "Theme" },
+  "theme": { "system": "System", "light": "Light", "dark": "Dark" },
+  "legend": { "label": "Legend and filters", "kind": "Kind", "source": "Found in" },
+  "kinds": { "skill": "Skills", "plugin": "Plugins", "agent": "Agents", "command": "Commands" },
+  "kindHelp": {
+    "skill": "Instructions for doing one kind of task",
+    "plugin": "A bundle of skills, agents and connected tools",
+    "agent": "A helper that takes on one job by itself",
+    "command": "Something you call directly as /name"
+  },
+  "sources": {
+    "user": "My skills folder",
+    "plugin": "Claude Code plugins",
+    "desktop": "Claude app",
+    "project": "Project",
+    "agents": "Shared folder"
+  },
+  "groups": {
+    "user": "Skills I made",
+    "project": "Project skills",
+    "agents": "Shared skills folder",
+    "app": "Claude app built-in skills"
+  },
+  "search": { "label": "Find by name or description", "placeholder": "Find by name or description" },
+  "actions": { "rescan": "Scan again", "clear": "Clear filters" },
+  "status": {
+    "loading": "Looking for installed items…",
+    "count": "{n} items",
+    "filtered": "{n} of {total}",
+    "noMatch": "Nothing matches those filters.",
+    "empty": "No skills or plugins found. Open “Folders checked” below to see where it looked.",
+    "loadError": "Couldn’t load the list. Check that skill-atlas serve is still running in your terminal, then choose “Scan again”."
+  },
+  "state": { "on": "On", "off": "Off" },
+  "noDescription": "No description.",
+  "fields": {
+    "when": "When to use it",
+    "original": "Original description",
+    "kind": "Kind",
+    "partOf": "Part of",
+    "version": "Version",
+    "author": "Made by",
+    "state": "State",
+    "sources": "Found in",
+    "mcp": "Connected tools (MCP)",
+    "homepage": "Homepage",
+    "paths": "Location"
+  },
+  "summary": {
+    "title": "Plain summaries",
+    "intro": "If the original descriptions are long or hard to read, Claude can rewrite each as one line. The name and description of each item are sent to Claude.",
+    "make": "Write summaries ({n})",
+    "running": "Writing {done}/{total}",
+    "allDone": "Every item has a plain summary.",
+    "noProvider": "To write summaries, log in to the Claude Code CLI or set the ANTHROPIC_API_KEY environment variable, then start again.",
+    "failed": "{n} could not be written. Choose the button again to retry only those.",
+    "startError": "Couldn’t start writing summaries. Try again in a moment."
+  },
+  "scanned": { "title": "Folders checked", "found": "found", "missing": "missing" }
+}
